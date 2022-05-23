@@ -49,13 +49,18 @@ export default class MyPlugin extends Plugin {
 					);
 					return;
 				}
-				const { nowFile, fileData } =
+				const { nowFile, fileData,fullPath } =
 					await this.getNowFileMarkdwonContent(this.app);
 				const { basename } = nowFile;
-				console.log(nowFile, "nowfile");
 				if (fileData) {
 					const upload = new Upload2Notion(this);
-					await upload.syncMarkdownToNotion(basename,fileData);
+					const res = await upload.syncMarkdownToNotion(basename,fileData, fullPath)
+					console.log(res)
+					if(res.status === 200){
+						new Notice(`${basename}同步成功`)
+					}else {
+						new Notice(`${basename}同步失败`)
+					}
 				}
 			}
 		);
@@ -140,6 +145,7 @@ export default class MyPlugin extends Plugin {
 			return {
 				fileData,
 				nowFile,
+				fullPath,
 			};
 		} else {
 			new Notice("请打开需要同步的文件");

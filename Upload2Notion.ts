@@ -2,20 +2,9 @@ import { App, requestUrl } from "obsidian";
 import { Client } from "@notionhq/client";
 import { markdownToBlocks, markdownToRichText } from "@tryfabric/martian";
 import * as fs from "fs";
-import { HttpsProxyAgent } from "https-proxy-agent";
+import * as yamlFrontMatter from "yaml-front-matter";
+import * as yaml from "yaml"
 import MyPlugin from "main";
-
-interface settings {
-	notionAPI: string; 
-	databaseID: string;
-	proxy: string;
-}
-
-interface IApp {
-	app: App;
-	manifest: any;
-	settings: settings;
-}
 
 export class Upload2Notion {
 	app: MyPlugin;
@@ -23,7 +12,6 @@ export class Upload2Notion {
 	agent: any;
 	constructor(app: MyPlugin) {
 		this.app = app;
-		console.log(app);
 	}
 
 	async createPage(title:string, childArr: any) {
@@ -42,7 +30,6 @@ export class Upload2Notion {
 			},
 			children: childArr,
 		}
-		console.log(bodyString)
 		const response = await requestUrl({
 			url: `https://api.notion.com/v1/pages`,
 			method: 'POST',
@@ -54,14 +41,30 @@ export class Upload2Notion {
 			},
 			body: JSON.stringify(bodyString),
 		})
-		console.log('POST response', response);	
 		return response;
 	}
 
-	async syncMarkdownToNotion(title:string, markdown: string): Promise<any> {
+	async syncMarkdownToNotion(title:string, markdown: string, fullPath:string): Promise<any> {
 		const file2md = markdownToBlocks(markdown);
-		console.log(file2md)
 		const res = await this.createPage(title, file2md);
+		if (res.status === 200) {
+			this.updateYamlInfo(markdown, fullPath, res)
+		}
+		return res
+	}
+
+	async updateYamlInfo(yamlContent: string, fullPath: string, res: any) {
+		const yamlObj:any = yamlFrontMatter.loadFront(yamlContent);
+		const {url} = res.json
+		yamlObj.shareUrl = url;
+		const __content = yamlObj.__content;
+		delete yamlObj.__content
+		const yamlhead = yaml.stringify(yamlObj)
+
+		const content = '---\n' +yamlhead +'\n---\n' + __content;
+
+		//write content fo file
+		fs.writeFileSync(fullPath, content);
 		return res
 	}
 }
