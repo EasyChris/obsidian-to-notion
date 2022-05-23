@@ -2,6 +2,7 @@ import { timingSafeEqual } from "crypto";
 import {
 	App,
 	EditableFileView,
+	requestUrl,
 	Editor,
 	MarkdownView,
 	Modal,
@@ -10,8 +11,10 @@ import {
 	PluginSettingTab,
 	Setting,
 } from "obsidian";
-import {join} from "path";
-import * as fs from 'fs';
+import { join } from "path";
+import * as fs from "fs";
+import { Upload2Notion } from "Upload2Notion";
+// import {Upload2Notion} from "./Upload2Notion";
 
 // Remember to rename these classes and interfaces!
 
@@ -24,7 +27,7 @@ interface MyPluginSettings {
 const DEFAULT_SETTINGS: MyPluginSettings = {
 	notionAPI: "",
 	databaseID: "",
-	proxy:"",
+	proxy: "",
 };
 
 export default class MyPlugin extends Plugin {
@@ -39,16 +42,22 @@ export default class MyPlugin extends Plugin {
 			"share to notion",
 			async (evt: MouseEvent) => {
 				// Called when the user clicks the icon.
-				const {notionAPI, databaseID} = this.settings;
+				const { notionAPI, databaseID } = this.settings;
 				if (notionAPI === "" || databaseID === "") {
-					new Notice("Please set up the notion API and database ID in the settings tab.");
+					new Notice(
+						"Please set up the notion API and database ID in the settings tab."
+					);
 					return;
 				}
-				new Notice("Start sync");
-				const data = await this.getNowFileMarkdwonContent(this.app)	
-				console.log(data)
+				const { nowFile, fileData } =
+					await this.getNowFileMarkdwonContent(this.app);
+				const { basename } = nowFile;
+				console.log(nowFile, "nowfile");
+				if (fileData) {
+					const upload = new Upload2Notion(this);
+					await upload.syncMarkdownToNotion(basename,fileData);
+				}
 			}
-			
 		);
 		// Perform additional things with the ribbon
 		ribbonIconEl.addClass("my-plugin-ribbon-class");
@@ -61,9 +70,9 @@ export default class MyPlugin extends Plugin {
 			id: "share-to-notion",
 			name: "share to notion",
 			editorCallback: async (editor: Editor, view: MarkdownView) => {
-				console.log(view.data)
-			}
-		})
+				console.log(view.data);
+			},
+		});
 
 		// This adds a simple command that can be triggered anywhere
 		this.addCommand({
@@ -122,13 +131,20 @@ export default class MyPlugin extends Plugin {
 
 	async getNowFileMarkdwonContent(app: App) {
 		const nowFile = app.workspace.getActiveFile();
-				console.log(nowFile)
-				const filePath:string = nowFile.path;
-				const basePath:string = nowFile.vault.adapter.basePath
-				const fullPath = join(basePath, filePath)
-				const fileData = fs.readFileSync(fullPath, "utf8");
-				console.log(fileData)				
-				return fileData
+		if (nowFile) {
+			const filePath: string = nowFile.path;
+			const basePath: string = nowFile.vault.adapter.basePath;
+			const fullPath = join(basePath, filePath);
+			console.log("fullpath", fullPath);
+			const fileData = fs.readFileSync(fullPath, "utf8");
+			return {
+				fileData,
+				nowFile,
+			};
+		} else {
+			new Notice("请打开需要同步的文件");
+			return;
+		}
 	}
 
 	async loadSettings() {
@@ -173,7 +189,9 @@ class SampleSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		containerEl.createEl("h2", { text: "Settings for obsidian to notion plugin." });
+		containerEl.createEl("h2", {
+			text: "Settings for obsidian to notion plugin.",
+		});
 
 		new Setting(containerEl)
 			.setName("Notion API Token")
@@ -202,17 +220,17 @@ class SampleSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					})
 			);
-		
-			new Setting(containerEl)
+
+		new Setting(containerEl)
 			.setName("Proxy")
 			.setDesc("like `http:127.0.0.1:8888`")
 			.addText((text) =>
 				text
 					.setPlaceholder("Enter proxy config defalut is null")
-					.setValue(this.plugin.settings.databaseID)
+					.setValue(this.plugin.settings.proxy)
 					.onChange(async (value) => {
 						console.log("Secret: " + value);
-						this.plugin.settings.databaseID = value;
+						this.plugin.settings.proxy = value;
 						await this.plugin.saveSettings();
 					})
 			);

@@ -9,7 +9,6 @@
     "noImplicitAny": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "isolatedModules": true,
     "lib": [
       "DOM",
       "ES5",
@@ -19,5 +18,5 @@
   },
   "include": [
     "**/*.ts"
-  ]
+, "Upload2Notion.ts"  ]
 }
