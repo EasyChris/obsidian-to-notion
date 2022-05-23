@@ -45,7 +45,9 @@ export class Upload2Notion {
 	}
 
 	async syncMarkdownToNotion(title:string, markdown: string, fullPath:string): Promise<any> {
-		const file2md = markdownToBlocks(markdown);
+		const yamlObj:any = yamlFrontMatter.loadFront(markdown);
+		const __content = yamlObj.__content
+		const file2md = markdownToBlocks(__content);
 		const res = await this.createPage(title, file2md);
 		if (res.status === 200) {
 			this.updateYamlInfo(markdown, fullPath, res)
