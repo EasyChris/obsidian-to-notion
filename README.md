@@ -62,6 +62,12 @@ A share link will be automatically generated after successful upload
 ![](./doc/5.png)
 
 
+# Todo
+
+- [ ] support for mobile
+- [x] support for custom page banner
+- [ ] update the exsit page 
+
 # Buy me a cup of coffee.
 
 [Buy me a coffee](https://dun.mianbaoduo.com/@easy)

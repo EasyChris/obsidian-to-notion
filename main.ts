@@ -22,12 +22,14 @@ import { Upload2Notion } from "Upload2Notion";
 interface MyPluginSettings {
 	notionAPI: string;
 	databaseID: string;
+	bannerUrl: string;
 	proxy: string;
 }
 
 const DEFAULT_SETTINGS: MyPluginSettings = {
 	notionAPI: "",
 	databaseID: "",
+	bannerUrl: "",
 	proxy: "",
 };
 
@@ -182,6 +184,20 @@ class SampleSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						console.log("Secret: " + value);
 						this.plugin.settings.databaseID = value;
+						await this.plugin.saveSettings();
+					})
+			);
+			
+			new Setting(containerEl)
+			.setName("Banner Url")
+			.setDesc("page banner url")
+			.addText((text) =>
+				text
+					.setPlaceholder("Enter banner pic url: ")
+					.setValue(this.plugin.settings.bannerUrl)
+					.onChange(async (value) => {
+						console.log("Secret: " + value);
+						this.plugin.settings.bannerUrl = value;
 						await this.plugin.saveSettings();
 					})
 			);

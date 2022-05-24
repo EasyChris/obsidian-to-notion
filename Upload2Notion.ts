@@ -18,6 +18,12 @@ export class Upload2Notion {
 			parent: { 
 				database_id: this.app.settings.databaseID 
 			},
+			cover: {
+				type: "external",
+				external: {
+					url: this.app.settings.bannerUrl
+				}
+			},
 			properties: {
 				Name: {
 					title: [
