@@ -50,7 +50,7 @@ export default class MyPlugin extends Plugin {
 
 		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
 		const statusBarItemEl = this.addStatusBarItem();
-		statusBarItemEl.setText("This is made for love");
+		// statusBarItemEl.setText("share to notion");
 
 		this.addCommand({
 			id: "share-to-notion",
