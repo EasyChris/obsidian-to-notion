@@ -6,7 +6,7 @@ on:
       - "*"
 
 env:
-  PLUGIN_NAME: obsidian-weread-plugin
+  PLUGIN_NAME: obsidian-to-notion
 
 jobs:
   build:
