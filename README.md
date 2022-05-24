@@ -66,7 +66,8 @@ A share link will be automatically generated after successful upload
 
 - [ ] support for mobile
 - [x] support for custom page banner
-- [ ] update the exsit page 
+- [ ] update the exsit page
+- [ ] transfer the bi-link format like [[]] into the format that Notion supports. 
 
 # Buy me a cup of coffee.
 
@@ -80,6 +81,8 @@ A share link will be automatically generated after successful upload
 [GitHub - obsidianmd/obsidian-api](https://github.com/obsidianmd/obsidian-api)
 
 [GitHub - Easychris/obsidian-to-notion: Obsidian Weread Plugin is an plugin to sync Weread(微信读书) hightlights and annotations into your Obsidian Vault.](https://github.com/Easychris/obsidian-to-notion)
+
+[GitHub - Quorafind/Obsidian-Memos: A quick capture plugin for Obsidian, all data from your notes.](https://github.com/Quorafind/Obsidian-Memos)
 
 # License
 GNU GPLv3
