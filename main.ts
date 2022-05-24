@@ -95,6 +95,7 @@ export default class MyPlugin extends Plugin {
 		const nowFile = app.workspace.getActiveFile();
 		if (nowFile) {
 			const filePath: string = nowFile.path;
+			// @ts-ignore
 			const basePath: string = nowFile.vault.adapter.basePath;
 			const fullPath = join(basePath, filePath);
 			console.log("fullpath", fullPath);
