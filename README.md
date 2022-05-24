@@ -61,6 +61,9 @@ https://www.notion.so/myworkspace/a8aec43384f447ed84390e8e42c2e089?v=...
 
 # 感谢
 [开发流程 | Obsidian 插件开发文档](https://luhaifeng666.github.io/obsidian-plugin-docs-zh/zh/getting-started/development-workflow.html)
+
 [GitHub - devbean/obsidian-wordpress: An obsidian plugin for publishing docs to WordPress.](https://github.com/devbean/obsidian-wordpress)
+
 [GitHub - obsidianmd/obsidian-api](https://github.com/obsidianmd/obsidian-api)
+
 [GitHub - zhaohongxuan/obsidian-weread-plugin: Obsidian Weread Plugin is an plugin to sync Weread(微信读书) hightlights and annotations into your Obsidian Vault.](https://github.com/zhaohongxuan/obsidian-weread-plugin)
