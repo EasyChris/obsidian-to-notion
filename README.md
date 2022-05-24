@@ -1,3 +1,4 @@
+# Obsidian to Notion
 Obsidian share to Notion
 
 Share obsidian files to Notion with one click, and auto add Notion share link in obsidian
@@ -67,3 +68,6 @@ A share link will be automatically generated after successful upload
 [GitHub - obsidianmd/obsidian-api](https://github.com/obsidianmd/obsidian-api)
 
 [GitHub - zhaohongxuan/obsidian-weread-plugin: Obsidian Weread Plugin is an plugin to sync Weread(微信读书) hightlights and annotations into your Obsidian Vault.](https://github.com/zhaohongxuan/obsidian-weread-plugin)
+
+# License
+GNU GPLv3
