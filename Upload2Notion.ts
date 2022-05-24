@@ -14,16 +14,10 @@ export class Upload2Notion {
 		this.app = app;
 	}
 	async createPage(title:string, childArr: any) {
-		const bodyString = {
+		const bodyString:any = {
 			parent: { 
 				database_id: this.app.settings.databaseID 
-			},
-			cover: {
-				type: "external",
-				external: {
-					url: this.app.settings.bannerUrl
-				}
-			},
+			},	
 			properties: {
 				Name: {
 					title: [
@@ -37,6 +31,16 @@ export class Upload2Notion {
 			},
 			children: childArr,
 		}
+
+		if(this.app.settings.bannerUrl) {
+			bodyString.cover = {
+				type: "external",
+				external: {
+					url: this.app.settings.bannerUrl
+				}
+			}
+		}
+
 		const response = await requestUrl({
 			url: `https://api.notion.com/v1/pages`,
 			method: 'POST',
