@@ -10,6 +10,7 @@ import {
 	Plugin,
 	PluginSettingTab,
 	Setting,
+	normalizePath
 } from "obsidian";
 import { join } from "path";
 import * as fs from "fs";
@@ -97,7 +98,7 @@ export default class MyPlugin extends Plugin {
 			const filePath: string = nowFile.path;
 			// @ts-ignore
 			const basePath: string = nowFile.vault.adapter.basePath;
-			const fullPath = join(basePath, filePath);
+			const fullPath = normalizePath(join(basePath, filePath));
 			console.log("fullpath", fullPath);
 			const fileData = fs.readFileSync(fullPath, "utf8");
 			return {
