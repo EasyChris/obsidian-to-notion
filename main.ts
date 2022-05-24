@@ -13,8 +13,8 @@ import {
 } from "obsidian";
 import { join } from "path";
 import * as fs from "fs";
+import {addIcons}  from 'icon';
 import { Upload2Notion } from "Upload2Notion";
-// import {Upload2Notion} from "./Upload2Notion";
 
 // Remember to rename these classes and interfaces!
 
@@ -32,14 +32,14 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 
 export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
-
+	
 	async onload() {
 		await this.loadSettings();
-
+		addIcons();
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon(
-			"dice",
-			"share to notion",
+			"notion-logo",
+			"Share to notion",
 			async (evt: MouseEvent) => {
 				// Called when the user clicks the icon.
 				this.upload();
@@ -64,10 +64,6 @@ export default class MyPlugin extends Plugin {
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new SampleSettingTab(this.app, this));
 
-		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
-		this.registerInterval(
-			window.setInterval(() => console.log("setInterval"), 5 * 60 * 1000)
-		);
 	}
 
 	onunload() {}
@@ -88,9 +84,9 @@ export default class MyPlugin extends Plugin {
 					const res = await upload.syncMarkdownToNotion(basename,fileData, fullPath)
 					console.log(res)
 					if(res.status === 200){
-						new Notice(`${basename}同步成功`)
+						new Notice(`${basename} 同步成功`)
 					}else {
-						new Notice(`${basename}同步失败`)
+						new Notice(`${basename} 同步失败`)
 					}
 				}
 	}
