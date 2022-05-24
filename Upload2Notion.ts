@@ -58,12 +58,15 @@ export class Upload2Notion {
 	async updateYamlInfo(yamlContent: string, fullPath: string, res: any) {
 		const yamlObj:any = yamlFrontMatter.loadFront(yamlContent);
 		const {url} = res.json
-		yamlObj.shareUrl = url;
+		yamlObj.link = url;
 		const __content = yamlObj.__content;
 		delete yamlObj.__content
 		const yamlhead = yaml.stringify(yamlObj)
-
-		const content = '---\n' +yamlhead +'\n---\n' + __content;
+		//  if yamlhead hava last \n  remove it
+		const yamlhead_remove_n = yamlhead.replace(/\n$/, '')
+		// if __content have start \n remove it
+		const __content_remove_n = __content.replace(/^\n/, '')
+		const content = '---\n' +yamlhead_remove_n +'\n---\n' + __content_remove_n;
 
 		//write content fo file
 		fs.writeFileSync(fullPath, content);
