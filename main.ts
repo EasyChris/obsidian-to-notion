@@ -168,7 +168,6 @@ class SampleSettingTab extends PluginSettingTab {
 					.setPlaceholder("Enter your Notion API Token")
 					.setValue(this.plugin.settings.notionAPI)
 					.onChange(async (value) => {
-						console.log("Secret: " + value);
 						this.plugin.settings.notionAPI = value;
 						await this.plugin.saveSettings();
 					})
@@ -182,7 +181,6 @@ class SampleSettingTab extends PluginSettingTab {
 					.setPlaceholder("Enter your Database ID")
 					.setValue(this.plugin.settings.databaseID)
 					.onChange(async (value) => {
-						console.log("Secret: " + value);
 						this.plugin.settings.databaseID = value;
 						await this.plugin.saveSettings();
 					})
@@ -196,7 +194,6 @@ class SampleSettingTab extends PluginSettingTab {
 					.setPlaceholder("Enter banner pic url: ")
 					.setValue(this.plugin.settings.bannerUrl)
 					.onChange(async (value) => {
-						console.log("Secret: " + value);
 						this.plugin.settings.bannerUrl = value;
 						await this.plugin.saveSettings();
 					})

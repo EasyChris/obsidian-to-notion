@@ -4,6 +4,8 @@ export const NoticeMsg: {[key: string]:any} = {
     "sync-success": "Sync to notion success: \n",
     "sync-fail": "Sync to notion fail: \n",
     "open-notion": "Please open the file that needs to be synchronized",
+    "config-secrets-notion-api": "Please set up the notion API in the settings tab.",
+    "config-secrets-database-id": "Please set up the database id in the settings tab.",
   },
   "zh": {
     "notion-logo": "分享到Notion",
