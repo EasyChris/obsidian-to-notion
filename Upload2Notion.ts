@@ -93,7 +93,7 @@ export class Upload2Notion {
 		}
 		console.log(res,'===')
 		if (res.status === 200) {
-			this.updateYamlInfo(markdown, fullPath, res)
+			await this.updateYamlInfo(markdown, fullPath, res)
 		}
 		return res
 	}
@@ -102,6 +102,7 @@ export class Upload2Notion {
 		const yamlObj:any = yamlFrontMatter.loadFront(yamlContent);
 		const {url, id} = res.json
 		yamlObj.link = url;
+		await navigator.clipboard.writeText(url)
 		yamlObj.notionID = id;
 		const __content = yamlObj.__content;
 		delete yamlObj.__content

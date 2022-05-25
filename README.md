@@ -11,6 +11,16 @@ Share obsidian files to Notion with one click, and auto add Notion share link in
 
 ![](./doc/1.gif)
 
+# Todo
+
+- [x] support for custom page banner
+- [x] update the exsit page
+- [x] support for mult language
+- [x] support for auto copy the share link to clipboard
+- [ ] support for mobile
+- [ ] transfer the bi-link format like [[]] into the format that Notion supports.
+
+
 # How to use
 ## Install the plugin
 ### BRAT
@@ -62,14 +72,7 @@ A share link will be automatically generated after successful upload
 ![](./doc/5.png)
 
 
-# Todo
 
-- [ ] support for mobile
-- [x] support for custom page banner
-- [ ] update the exsit page
-- [ ] transfer the bi-link format like [[]] into the format that Notion supports.
-- [ ] support for mult language
-- [ ] support for auto copy the share link to clipboard
 
 # Buy me a cup of coffee.
 

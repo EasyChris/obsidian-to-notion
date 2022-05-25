@@ -45,9 +45,6 @@ export default class MyPlugin extends Plugin {
 			"Share to notion",
 			async (evt: MouseEvent) => {
 				// Called when the user clicks the icon.
-				
-				
-
 				this.upload();
 			}
 		);
