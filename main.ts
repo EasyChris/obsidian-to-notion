@@ -1,8 +1,5 @@
-import { timingSafeEqual } from "crypto";
 import {
 	App,
-	EditableFileView,
-	requestUrl,
 	Editor,
 	MarkdownView,
 	Modal,
@@ -16,6 +13,8 @@ import { join } from "path";
 import * as fs from "fs";
 import {addIcons}  from 'icon';
 import { Upload2Notion } from "Upload2Notion";
+import {NoticeMConfig} from "Message";
+
 
 // Remember to rename these classes and interfaces!
 
@@ -24,6 +23,7 @@ interface MyPluginSettings {
 	databaseID: string;
 	bannerUrl: string;
 	proxy: string;
+	langConfig: any;
 }
 
 const DEFAULT_SETTINGS: MyPluginSettings = {
@@ -31,21 +31,21 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 	databaseID: "",
 	bannerUrl: "",
 	proxy: "",
+	langConfig: NoticeMConfig( window.localStorage.getItem('language') || 'en')
 };
 
 export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
-	
 	async onload() {
 		await this.loadSettings();
-		addIcons();
+		addIcons();	
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon(
 			"notion-logo",
 			"Share to notion",
 			async (evt: MouseEvent) => {
 				// Called when the user clicks the icon.
-				console.log(this,window.localStorage.getItem('language'))
+				
 				
 
 				this.upload();
@@ -90,9 +90,9 @@ export default class MyPlugin extends Plugin {
 					const res = await upload.syncMarkdownToNotion(basename,fileData, fullPath)
 					console.log(res)
 					if(res.status === 200){
-						new Notice(`${basename} 同步成功`)
+						new Notice(`${this.settings.langConfig["sync-success"]}${basename}`)
 					}else {
-						new Notice(`${basename} 同步失败`)
+						new Notice(`${this.settings.langConfig["sync-fail"]}${basename}`)
 					}
 				}
 	}
@@ -112,7 +112,7 @@ export default class MyPlugin extends Plugin {
 				fullPath,
 			};
 		} else {
-			new Notice("请打开需要同步的文件");
+			new Notice(this.settings.langConfig["open-file"]);
 			return;
 		}
 	}
