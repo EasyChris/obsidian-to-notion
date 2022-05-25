@@ -13,6 +13,30 @@ export class Upload2Notion {
 	constructor(app: MyPlugin) {
 		this.app = app;
 	}
+
+	async deletePage(notionID:string){	
+		const response = await requestUrl({
+			url: `https://api.notion.com/v1/blocks/${notionID}`,
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + this.app.settings.notionAPI,
+				'Notion-Version': '2022-02-22',
+			},
+			body: ''
+		})
+		console.log(response)
+		return response;	
+	}
+
+	// 因为需要解析notion的block进行对比，非常的麻烦，
+	// 暂时就直接删除，新建一个page
+	async updatePage(notionID:string, title:string, childArr:any) {
+		await this.deletePage(notionID)
+		const res = await this.createPage(title, childArr)
+		return res
+	}
+
 	async createPage(title:string, childArr: any) {
 		const bodyString:any = {
 			parent: { 
@@ -56,10 +80,18 @@ export class Upload2Notion {
 	}
 
 	async syncMarkdownToNotion(title:string, markdown: string, fullPath:string): Promise<any> {
+		let res:any
 		const yamlObj:any = yamlFrontMatter.loadFront(markdown);
+		console.log(yamlObj)
 		const __content = yamlObj.__content
-		const file2md = markdownToBlocks(__content);
-		const res = await this.createPage(title, file2md);
+		const file2Block = markdownToBlocks(__content);
+		const {notionID} = yamlObj;
+		if(notionID){
+				res = await this.updatePage(notionID, title, file2Block);
+		} else {
+			 	res = await this.createPage(title, file2Block);
+		}
+		console.log(res,'===')
 		if (res.status === 200) {
 			this.updateYamlInfo(markdown, fullPath, res)
 		}
@@ -68,8 +100,9 @@ export class Upload2Notion {
 
 	async updateYamlInfo(yamlContent: string, fullPath: string, res: any) {
 		const yamlObj:any = yamlFrontMatter.loadFront(yamlContent);
-		const {url} = res.json
+		const {url, id} = res.json
 		yamlObj.link = url;
+		yamlObj.notionID = id;
 		const __content = yamlObj.__content;
 		delete yamlObj.__content
 		const yamlhead = yaml.stringify(yamlObj)

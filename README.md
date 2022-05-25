@@ -67,7 +67,9 @@ A share link will be automatically generated after successful upload
 - [ ] support for mobile
 - [x] support for custom page banner
 - [ ] update the exsit page
-- [ ] transfer the bi-link format like [[]] into the format that Notion supports. 
+- [ ] transfer the bi-link format like [[]] into the format that Notion supports.
+- [ ] support for mult language
+- [ ] support for auto copy the share link to clipboard
 
 # Buy me a cup of coffee.
 

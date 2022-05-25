@@ -45,6 +45,9 @@ export default class MyPlugin extends Plugin {
 			"Share to notion",
 			async (evt: MouseEvent) => {
 				// Called when the user clicks the icon.
+				console.log(this,window.localStorage.getItem('language'))
+				
+
 				this.upload();
 			}
 		);
