@@ -187,8 +187,8 @@ class SampleSettingTab extends PluginSettingTab {
 			);
 			
 			new Setting(containerEl)
-			.setName("Banner Url")
-			.setDesc("page banner url")
+			.setName("Banner url(optional)")
+			.setDesc("page banner url(optional), default is empty, if you want to show a banner, please enter the url(like:https://raw.githubusercontent.com/EasyChris/obsidian-to-notion/ae7a9ac6cf427f3ca338a409ce6967ced9506f12/doc/2.png)")
 			.addText((text) =>
 				text
 					.setPlaceholder("Enter banner pic url: ")

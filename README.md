@@ -73,7 +73,9 @@ A share link will be automatically generated after successful upload
 ![](./doc/5.png)
 
 
-
+## Banner URL[option]
+banner url must be a image url like: https://i.imgur.com/xxx.jpg
+if you don't want to use banner, leave it blank
 
 # Buy me a cup of coffee.
 
