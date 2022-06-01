@@ -12,8 +12,8 @@ Share obsidian files to Notion with one click, and auto add Notion share link in
 
 ![](./doc/1.gif)
 
-# Todo
-
+# TODO
+### [TODO Board](https://github.com/users/EasyChris/projects/3/views/1)
 - [x] support for custom page banner
 - [x] update the exsit page
 - [x] support for mult language

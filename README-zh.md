@@ -62,6 +62,10 @@ https://www.notion.so/myworkspace/a8aec43384f447ed84390e8e42c2e089?v=...
 ![](./doc/5.png)
 
 
+## 页面 Banner 链接[可选]
+默认可以不填写
+横幅URL必须是图像URL，例如：https：//i.imgur.com/xxx.jpg
+
 # 请我喝杯咖啡
 
 [顿顿饭](https://dun.mianbaoduo.com/@easy)
