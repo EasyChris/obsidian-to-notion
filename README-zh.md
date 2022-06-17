@@ -66,6 +66,11 @@ https://www.notion.so/myworkspace/a8aec43384f447ed84390e8e42c2e089?v=...
 默认可以不填写
 横幅URL必须是图像URL，例如：https：//i.imgur.com/xxx.jpg
 
+## Notion ID [可选]
+Notion ID是你想分享文件的页面ID。
+如果你不写它，notion将分享到默认的链接，如：https://www.notion.so/myworkspace/a8aec43384f447ed84390，访问这个页面将重定向到你的网站页面。
+如果你写了Notion ID，它将分享到页面链接如：https://your_user_name.notion.site/myworkspace/a8aec43384f447ed84390。不需要重定向网址。
+
 # 请我喝杯咖啡
 
 [顿顿饭](https://dun.mianbaoduo.com/@easy)

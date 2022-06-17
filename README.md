@@ -77,6 +77,12 @@ A share link will be automatically generated after successful upload
 banner url must be a image url like: https://i.imgur.com/xxx.jpg
 if you don't want to use banner, leave it blank
 
+## Notion ID [option]
+Notion ID is the page ID you want to share the file to.
+if you don't write it, notion will share to the default link like: https://www.notion.so/myworkspace/a8aec43384f447ed84390 that visit this page to redirect to your site page
+if you write the Notion ID, it will share to the page link like: https://your_user_name.notion.site/myworkspace/a8aec43384f447ed84390. don't need to redirect url.
+
+
 # Buy me a cup of coffee.
 
 [Buy me a coffee](https://dun.mianbaoduo.com/@easy)
