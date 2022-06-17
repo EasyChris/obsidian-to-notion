@@ -85,7 +85,6 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 					const { basename } = nowFile;
 					const upload = new Upload2Notion(this);
 					const res = await upload.syncMarkdownToNotion(basename, markDownData,nowFile, this.app)
-					console.log(res)
 					if(res.status === 200){
 						new Notice(`${this.settings.langConfig["sync-success"]}${basename}`)
 					}else {

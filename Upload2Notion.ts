@@ -78,7 +78,7 @@ export class Upload2Notion {
 			})
 			return response;
 		} catch (error) {
-				console.log(error)
+				new Notice(`network error ${error}`)
 		}	
 	}
 
