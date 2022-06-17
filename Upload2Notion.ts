@@ -136,12 +136,4 @@ export class Upload2Notion {
 			new Notice(`write file error ${error}`)
 		}
 	}
-
-
-	getFilePath(file: TFile): string {
-		const basePath: string = file.vault.adapter.getBasePath();
-		const filePath: string = file.path;
-		const fullPath = normalizePath(join(basePath, filePath));
-		return fullPath;
-	}
 }
