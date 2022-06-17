@@ -22,6 +22,7 @@ interface PluginSettings {
 	notionAPI: string;
 	databaseID: string;
 	bannerUrl: string;
+	notionID: string;
 	proxy: string;
 	langConfig: any;
 }
@@ -30,6 +31,7 @@ const DEFAULT_SETTINGS: PluginSettings = {
 	notionAPI: "",
 	databaseID: "",
 	bannerUrl: "",
+	notionID: "",
 	proxy: "",
 	langConfig: NoticeMConfig( window.localStorage.getItem('language') || 'en')
 };
@@ -84,7 +86,7 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 				if (markDownData) {
 					const { basename } = nowFile;
 					const upload = new Upload2Notion(this);
-					const res = await upload.syncMarkdownToNotion(basename, markDownData,nowFile, this.app)
+					const res = await upload.syncMarkdownToNotion(basename, markDownData,nowFile, this.app, this.settings)
 					if(res.status === 200){
 						new Notice(`${this.settings.langConfig["sync-success"]}${basename}`)
 					}else {
@@ -175,6 +177,20 @@ class SampleSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.bannerUrl)
 					.onChange(async (value) => {
 						this.plugin.settings.bannerUrl = value;
+						await this.plugin.saveSettings();
+					})
+			);
+
+
+			new Setting(containerEl)
+			.setName("Notion ID(optional)")
+			.setDesc("Your notion ID(optional),share link likes:https://username.notion.site/,your notion id is [username]")
+			.addText((text) =>
+				text
+					.setPlaceholder("Enter notion ID(options) ")
+					.setValue(this.plugin.settings.notionID)
+					.onChange(async (value) => {
+						this.plugin.settings.notionID = value;
 						await this.plugin.saveSettings();
 					})
 			);

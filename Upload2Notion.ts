@@ -82,29 +82,41 @@ export class Upload2Notion {
 		}	
 	}
 
-	async syncMarkdownToNotion(title:string, markdown: string, nowFile: TFile, app:App): Promise<any> {
+	async syncMarkdownToNotion(title:string, markdown: string, nowFile: TFile, app:App, settings:any): Promise<any> {
 		let res:any
-		const file2Block = markdownToBlocks(markdown);
+		const yamlObj:any = yamlFrontMatter.loadFront(markdown);
+		const __content = yamlObj.__content
+		const file2Block = markdownToBlocks(__content);
 		const frontmasster =await app.metadataCache.getFileCache(nowFile)?.frontmatter
 		const notionID = frontmasster ? frontmasster.notionId : null
 
 		if(notionID){
 				res = await this.updatePage(notionID, title, file2Block);
+				console.log(res)
 		} else {
 			 	res = await this.createPage(title, file2Block);
+				 console.log(res)
 		}
 		if (res.status === 200) {
-			await this.updateYamlInfo(markdown, nowFile, res, app)
+			await this.updateYamlInfo(markdown, nowFile, res, app, settings)
 		} else {
 			new Notice(`${res.text}`)
 		}
 		return res
 	}
 
-	async updateYamlInfo(yamlContent: string, nowFile: TFile, res: any,app:App) {
+	async updateYamlInfo(yamlContent: string, nowFile: TFile, res: any,app:App, settings:any) {
 		const yamlObj:any = yamlFrontMatter.loadFront(yamlContent);
-		const {url, id} = res.json
+		let {url, id} = res.json
+		// replace www to notionID
+		console.log(app)	
+		const {notionID} = settings;
+		if(notionID!=="") {
+			// replace url str "www" to notionID
+			url  = url.replace("www.notion.so", `${notionID}.notion.site`)			
+		}
 		yamlObj.link = url;
+		console.log(url)
 		try {
 			await navigator.clipboard.writeText(url)
 		} catch (error) {
