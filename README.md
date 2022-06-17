@@ -88,7 +88,7 @@ if you don't want to use banner, leave it blank
 
 [GitHub - obsidianmd/obsidian-api](https://github.com/obsidianmd/obsidian-api)
 
-[GitHub - Easychris/obsidian-to-notion: Obsidian Weread Plugin is an plugin to sync Weread(微信读书) hightlights and annotations into your Obsidian Vault.](https://github.com/Easychris/obsidian-to-notion)
+[GitHub - Easychris/obsidian-to-notion: Obsidian Weread Plugin is an plugin to sync Weread(微信读书) hightlights and annotations into your Obsidian Vault.](https://github.dev/zhaohongxuan/obsidian-weread-plugin)
 
 [GitHub - Quorafind/Obsidian-Memos: A quick capture plugin for Obsidian, all data from your notes.](https://github.com/Quorafind/Obsidian-Memos)
 

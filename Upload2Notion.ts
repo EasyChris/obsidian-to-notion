@@ -1,10 +1,12 @@
-import { requestUrl } from "obsidian";
+import { Notice, requestUrl,TFile,normalizePath, App } from "obsidian";
 import { Client } from "@notionhq/client";
 import { markdownToBlocks,  } from "@tryfabric/martian";
 import * as fs from "fs";
 import * as yamlFrontMatter from "yaml-front-matter";
 import * as yaml from "yaml"
 import MyPlugin from "main";
+import { join } from "path";
+import { CLIENT_RENEG_LIMIT } from "tls";
 
 export class Upload2Notion {
 	app: MyPlugin;
@@ -25,7 +27,6 @@ export class Upload2Notion {
 			},
 			body: ''
 		})
-		console.log(response)
 		return response;	
 	}
 
@@ -65,44 +66,52 @@ export class Upload2Notion {
 			}
 		}
 
-		const response = await requestUrl({
-			url: `https://api.notion.com/v1/pages`,
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				// 'User-Agent': 'obsidian.md',
-				'Authorization': 'Bearer ' + this.app.settings.notionAPI,
-				'Notion-Version': '2021-08-16',
-			},
-			body: JSON.stringify(bodyString),
-		})
-		return response;
+		try {
+			const response = await requestUrl({
+				url: `https://api.notion.com/v1/pages`,
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					// 'User-Agent': 'obsidian.md',
+					'Authorization': 'Bearer ' + this.app.settings.notionAPI,
+					'Notion-Version': '2021-08-16',
+				},
+				body: JSON.stringify(bodyString),
+			})
+			return response;
+		} catch (error) {
+				console.log(error)
+		}	
 	}
 
-	async syncMarkdownToNotion(title:string, markdown: string, fullPath:string): Promise<any> {
+	async syncMarkdownToNotion(title:string, markdown: string, nowFile: TFile, app:App): Promise<any> {
 		let res:any
-		const yamlObj:any = yamlFrontMatter.loadFront(markdown);
-		console.log(yamlObj)
-		const __content = yamlObj.__content
-		const file2Block = markdownToBlocks(__content);
-		const {notionID} = yamlObj;
+		const file2Block = markdownToBlocks(markdown);
+		const frontmasster =await app.metadataCache.getFileCache(nowFile)?.frontmatter
+		const notionID = frontmasster ? frontmasster.notionId : null
+
 		if(notionID){
 				res = await this.updatePage(notionID, title, file2Block);
 		} else {
 			 	res = await this.createPage(title, file2Block);
 		}
-		console.log(res,'===')
 		if (res.status === 200) {
-			await this.updateYamlInfo(markdown, fullPath, res)
+			await this.updateYamlInfo(markdown, nowFile, res, app)
+		} else {
+			new Notice(`${res.text}`)
 		}
 		return res
 	}
 
-	async updateYamlInfo(yamlContent: string, fullPath: string, res: any) {
+	async updateYamlInfo(yamlContent: string, nowFile: TFile, res: any,app:App) {
 		const yamlObj:any = yamlFrontMatter.loadFront(yamlContent);
 		const {url, id} = res.json
 		yamlObj.link = url;
-		await navigator.clipboard.writeText(url)
+		try {
+			await navigator.clipboard.writeText(url)
+		} catch (error) {
+			new Notice(`复制链接失败，请手动复制${error}`)
+		}
 		yamlObj.notionID = id;
 		const __content = yamlObj.__content;
 		delete yamlObj.__content
@@ -112,9 +121,17 @@ export class Upload2Notion {
 		// if __content have start \n remove it
 		const __content_remove_n = __content.replace(/^\n/, '')
 		const content = '---\n' +yamlhead_remove_n +'\n---\n' + __content_remove_n;
-
+		const fullPath = this.getFilePath(nowFile);
 		//write content fo file
 		fs.writeFileSync(fullPath, content);
-		return res
+		console.log(res)
+	}
+
+
+	getFilePath(file: TFile): string {
+		const basePath: string = file.vault.adapter.getBasePath();
+		const filePath: string = file.path;
+		const fullPath = normalizePath(join(basePath, filePath));
+		return fullPath;
 	}
 }

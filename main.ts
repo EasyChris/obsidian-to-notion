@@ -18,7 +18,7 @@ import {NoticeMConfig} from "Message";
 
 // Remember to rename these classes and interfaces!
 
-interface MyPluginSettings {
+interface PluginSettings {
 	notionAPI: string;
 	databaseID: string;
 	bannerUrl: string;
@@ -26,7 +26,7 @@ interface MyPluginSettings {
 	langConfig: any;
 }
 
-const DEFAULT_SETTINGS: MyPluginSettings = {
+const DEFAULT_SETTINGS: PluginSettings = {
 	notionAPI: "",
 	databaseID: "",
 	bannerUrl: "",
@@ -34,8 +34,8 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 	langConfig: NoticeMConfig( window.localStorage.getItem('language') || 'en')
 };
 
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+export default class ObsidianSyncNotionPlugin extends Plugin {
+	settings: PluginSettings;
 	async onload() {
 		await this.loadSettings();
 		addIcons();	
@@ -48,8 +48,6 @@ export default class MyPlugin extends Plugin {
 				this.upload();
 			}
 		);
-		// Perform additional things with the ribbon
-		ribbonIconEl.addClass("my-plugin-ribbon-class");
 
 		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
 		const statusBarItemEl = this.addStatusBarItem();
@@ -79,12 +77,14 @@ export default class MyPlugin extends Plugin {
 					);
 					return;
 				}
-				const { nowFile, fileData,fullPath } =
-					await this.getNowFileMarkdwonContent(this.app);
-				const { basename } = nowFile;
-				if (fileData) {
+				const { markDownData, nowFile } =
+					await this.getNowFileMarkdownContent(this.app);
+
+				
+				if (markDownData) {
+					const { basename } = nowFile;
 					const upload = new Upload2Notion(this);
-					const res = await upload.syncMarkdownToNotion(basename,fileData, fullPath)
+					const res = await upload.syncMarkdownToNotion(basename, markDownData,nowFile, this.app)
 					console.log(res)
 					if(res.status === 200){
 						new Notice(`${this.settings.langConfig["sync-success"]}${basename}`)
@@ -94,19 +94,13 @@ export default class MyPlugin extends Plugin {
 				}
 	}
 
-	async getNowFileMarkdwonContent(app: App) {
+	async getNowFileMarkdownContent(app: App) {
 		const nowFile = app.workspace.getActiveFile();
 		if (nowFile) {
-			const filePath: string = nowFile.path;
-			// @ts-ignore
-			const basePath: string = nowFile.vault.adapter.basePath;
-			const fullPath = normalizePath(join(basePath, filePath));
-			console.log("fullpath", fullPath);
-			const fileData = fs.readFileSync(fullPath, "utf8");
+			const markDownData = await nowFile.vault.read(nowFile);
 			return {
-				fileData,
+				markDownData,
 				nowFile,
-				fullPath,
 			};
 		} else {
 			new Notice(this.settings.langConfig["open-file"]);
@@ -127,26 +121,10 @@ export default class MyPlugin extends Plugin {
 	}
 }
 
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		const { contentEl } = this;
-		contentEl.setText("Woah!");
-	}
-
-	onClose() {
-		const { contentEl } = this;
-		contentEl.empty();
-	}
-}
-
 class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+	plugin: ObsidianSyncNotionPlugin;
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(app: App, plugin: ObsidianSyncNotionPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
@@ -160,7 +138,7 @@ class SampleSettingTab extends PluginSettingTab {
 			text: "Settings for obsidian to notion plugin.",
 		});
 
-		new Setting(containerEl)
+		const notionApiKye = new Setting(containerEl)
 			.setName("Notion API Token")
 			.setDesc("It's a secret")
 			.addText((text) =>
@@ -172,8 +150,9 @@ class SampleSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					})
 			);
+			notionApiKye.controlEl.querySelector('input').type='password'
 
-		new Setting(containerEl)
+		const notionDatabaseID = new Setting(containerEl)
 			.setName("Database ID")
 			.setDesc("It's a secret")
 			.addText((text) =>
@@ -185,6 +164,8 @@ class SampleSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					})
 			);
+
+			notionDatabaseID.controlEl.querySelector('input').type='password'
 			
 			new Setting(containerEl)
 			.setName("Banner url(optional)")
