@@ -1,12 +1,10 @@
 import { Notice, requestUrl,TFile,normalizePath, App } from "obsidian";
 import { Client } from "@notionhq/client";
 import { markdownToBlocks,  } from "@tryfabric/martian";
-import * as fs from "fs";
 import * as yamlFrontMatter from "yaml-front-matter";
 import * as yaml from "yaml"
 import MyPlugin from "main";
 import { join } from "path";
-import { CLIENT_RENEG_LIMIT } from "tls";
 
 export class Upload2Notion {
 	app: MyPlugin;
