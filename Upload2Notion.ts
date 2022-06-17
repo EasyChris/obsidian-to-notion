@@ -92,10 +92,8 @@ export class Upload2Notion {
 
 		if(notionID){
 				res = await this.updatePage(notionID, title, file2Block);
-				console.log(res)
 		} else {
 			 	res = await this.createPage(title, file2Block);
-				 console.log(res)
 		}
 		if (res.status === 200) {
 			await this.updateYamlInfo(markdown, nowFile, res, app, settings)
@@ -108,15 +106,13 @@ export class Upload2Notion {
 	async updateYamlInfo(yamlContent: string, nowFile: TFile, res: any,app:App, settings:any) {
 		const yamlObj:any = yamlFrontMatter.loadFront(yamlContent);
 		let {url, id} = res.json
-		// replace www to notionID
-		console.log(app)	
+		// replace www to notionID	
 		const {notionID} = settings;
 		if(notionID!=="") {
 			// replace url str "www" to notionID
 			url  = url.replace("www.notion.so", `${notionID}.notion.site`)			
 		}
 		yamlObj.link = url;
-		console.log(url)
 		try {
 			await navigator.clipboard.writeText(url)
 		} catch (error) {
