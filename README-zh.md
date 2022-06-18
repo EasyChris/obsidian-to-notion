@@ -41,6 +41,15 @@ git clone https://github.com/EasyChris/obsidian-to-notion.git
 
 ![](https://files.readme.io/0a267dd-share-database-with-integration.gif)
 
+#### 注意
+
+数据库的第一个自定义名称必须是 "Name"，否则同步会失败。
+
+![](https://afox-1256168983.cos.ap-shanghai.myqcloud.com/20220618102029.png)
+
+
+
+
 ### 第三步：复制database ID
 
 ```

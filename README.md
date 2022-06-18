@@ -43,6 +43,13 @@ Go to [https://www.notion.com/my-integrations](https://www.notion.com/my-integra
 Once created, copy `secrets toekn`
 ![](https://files.readme.io/2ec137d-093ad49-create-integration.gif)
 
+#### Note:
+database first custom name must be "Name", otherwise sync to notion will be failed
+
+![](https://afox-1256168983.cos.ap-shanghai.myqcloud.com/20220618102029.png)
+
+
+
 ### Step 2: Share a database with your integration
 Create a new page (with public permissions)
 Create a new database in the page -> you need `full page database`
