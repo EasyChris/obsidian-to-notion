@@ -18,7 +18,7 @@ Share obsidian files to Notion with one click, and auto add Notion share link in
 - [x] update the exsit page
 - [x] support for mult language
 - [x] support for auto copy the share link to clipboard
-- [ ] support for mobile
+- [x] support for mobile
 - [ ] transfer the bi-link format like [[]] into the format that Notion supports.
 
 
