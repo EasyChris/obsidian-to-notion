@@ -4,8 +4,6 @@ import { markdownToBlocks,  } from "@tryfabric/martian";
 import * as yamlFrontMatter from "yaml-front-matter";
 import * as yaml from "yaml"
 import MyPlugin from "main";
-import { join } from "path";
-
 export class Upload2Notion {
 	app: MyPlugin;
 	notion: Client;

@@ -24,8 +24,9 @@ interface PluginSettings {
 	bannerUrl: string;
 	notionID: string;
 	proxy: string;
-	langConfig: any;
 }
+
+const langConfig =  NoticeMConfig( window.localStorage.getItem('language') || 'en')
 
 const DEFAULT_SETTINGS: PluginSettings = {
 	notionAPI: "",
@@ -33,7 +34,6 @@ const DEFAULT_SETTINGS: PluginSettings = {
 	bannerUrl: "",
 	notionID: "",
 	proxy: "",
-	langConfig: NoticeMConfig( window.localStorage.getItem('language') || 'en')
 };
 
 export default class ObsidianSyncNotionPlugin extends Plugin {
@@ -88,9 +88,9 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 					const upload = new Upload2Notion(this);
 					const res = await upload.syncMarkdownToNotion(basename, markDownData,nowFile, this.app, this.settings)
 					if(res.status === 200){
-						new Notice(`${this.settings.langConfig["sync-success"]}${basename}`)
+						new Notice(`${langConfig["sync-success"]}${basename}`)
 					}else {
-						new Notice(`${this.settings.langConfig["sync-fail"]}${basename}`)
+						new Notice(`${langConfig["sync-fail"]}${basename}`)
 					}
 				}
 	}
@@ -104,7 +104,7 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 				nowFile,
 			};
 		} else {
-			new Notice(this.settings.langConfig["open-file"]);
+			new Notice(langConfig["open-file"]);
 			return;
 		}
 	}
@@ -142,28 +142,34 @@ class SampleSettingTab extends PluginSettingTab {
 		const notionApiKye = new Setting(containerEl)
 			.setName("Notion API Token")
 			.setDesc("It's a secret")
-			.addText((text) =>
-				text
-					.setPlaceholder("Enter your Notion API Token")
-					.setValue(this.plugin.settings.notionAPI)
-					.onChange(async (value) => {
-						this.plugin.settings.notionAPI = value;
-						await this.plugin.saveSettings();
-					})
-			);
-			notionApiKye.controlEl.querySelector('input').type='password'
+			.addText((text) =>{
+				let t = text
+				.setPlaceholder("Enter your Notion API Token")
+				.setValue(this.plugin.settings.notionAPI)
+				.onChange(async (value) => {
+					this.plugin.settings.notionAPI = value;
+					await this.plugin.saveSettings();
+				})
+				t.inputEl.type = 'password'
+				return t
+			});
+			
 
 		const notionDatabaseID = new Setting(containerEl)
 			.setName("Database ID")
 			.setDesc("It's a secret")
-			.addText((text) =>
-				text
-					.setPlaceholder("Enter your Database ID")
-					.setValue(this.plugin.settings.databaseID)
-					.onChange(async (value) => {
-						this.plugin.settings.databaseID = value;
-						await this.plugin.saveSettings();
-					})
+			.addText((text) => {
+				let t = text
+				.setPlaceholder("Enter your Database ID")
+				.setValue(this.plugin.settings.databaseID)
+				.onChange(async (value) => {
+					this.plugin.settings.databaseID = value;
+					await this.plugin.saveSettings();
+				})
+				t.inputEl.type = 'password'
+				return t
+			}
+				
 			);
 
 			notionDatabaseID.controlEl.querySelector('input').type='password'
