@@ -10,6 +10,8 @@ Obsidian share to Notion [中文文档](README-zh.md)
 
 Share obsidian files to Notion with one click, and auto add Notion share link in obsidian
 
+If it can be helpful to you, welcome to give a star supports
+
 ![](./doc/1.gif)
 
 # TODO

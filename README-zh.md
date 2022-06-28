@@ -9,6 +9,8 @@ Obsidian share to Notion [English](README.md)
 
 将obsidian文件一键分享到Notion,并在obsidian中添加Notion分享链接
 
+如果能对你有所帮助，欢迎给一个star支持。
+
 ![](./doc/1.gif)
 
 # 使用方式
