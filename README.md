@@ -24,6 +24,12 @@ Share obsidian files to Notion with one click, and auto add Notion share link in
 
 # How to use
 ## Install the plugin
+
+### Marketplace download
+Open obsidian setting -> Add plugin -> Search -> notion
+
+![](https://afox-1256168983.cos.ap-shanghai.myqcloud.com/20220628214145.png)
+
 ### BRAT
 Search for `BRAT` plugin in the plugin market center
 Add `EasyChris/obsidian-to-notion` to the list of installed BRAT plugins
@@ -33,8 +39,7 @@ Go back to the plugin center and enable it
 cd YOUR_OBSIDIAN_FOLDER/.obsidian/plugins/
 git clone https://github.com/EasyChris/obsidian-to-notion.git
 ```
-### Marketplace download
-Please install via BRAT because it's not on the market yet
+
 
 ## Apply Notion API
 Official reference documentation: [https://developers.notion.com/docs](https://developers.notion.com/docs)

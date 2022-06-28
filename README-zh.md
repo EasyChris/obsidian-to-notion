@@ -13,6 +13,11 @@ Obsidian share to Notion [English](README.md)
 
 # 使用方式
 ## 安装插件
+
+### 市场下载
+插件市场搜索 noiton 即可下载
+
+![](https://afox-1256168983.cos.ap-shanghai.myqcloud.com/20220628214145.png)
 ### BRAT
 插件中中心搜索 BRAT
 添加 `EasyChris/obsidian-to-notion` 到 BRAT 插件安装列表中
@@ -22,8 +27,7 @@ Obsidian share to Notion [English](README.md)
 cd YOUR_OBSIDIAN_FOLDER/.obsidian/plugins/
 git clone https://github.com/EasyChris/obsidian-to-notion.git
 ```
-### 市场下载
-因为暂时还未上架，所以请通过BRAT安装
+
 
 ## 申请 Notion API
 官方参考文档：[https://developers.notion.com/docs](https://developers.notion.com/docs)
