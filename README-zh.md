@@ -86,6 +86,10 @@ Notion ID是你想分享文件的页面ID。
 如果你不写它，notion将分享到默认的链接，如：https://www.notion.so/myworkspace/a8aec43384f447ed84390，访问这个页面将重定向到你的网站页面。
 如果你写了Notion ID，它将分享到页面链接如：https://your_user_name.notion.site/myworkspace/a8aec43384f447ed84390。不需要重定向网址。
 
+## 同步图片
+
+使用 [Obsidian Image Auto Upload Plugin](https://github.com/renmu123/obsidian-image-auto-upload-plugin) 插件，配置你自己的 cos 或者 oss，将图片存储到你自己的云存储，然后在 obsidian 中使用图片链接即可。该插件会自动帮你上传图片，并替换成链接。
+
 # 请我喝杯咖啡
 
 [顿顿饭](https://dun.mianbaoduo.com/@easy)

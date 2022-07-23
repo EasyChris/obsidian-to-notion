@@ -125,9 +125,6 @@ export class Upload2Notion {
 		// if __content have start \n remove it
 		const __content_remove_n = __content.replace(/^\n/, '')
 		const content = '---\n' +yamlhead_remove_n +'\n---\n' + __content_remove_n;
-		// const fullPath = this.getFilePath(nowFile);
-		//write content fo file
-		// fs.writeFileSync(fullPath, content);
 		try {
 			await nowFile.vault.modify(nowFile, content)
 		} catch (error) {

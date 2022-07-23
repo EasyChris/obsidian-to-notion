@@ -100,6 +100,9 @@ if you write the Notion ID, it will share to the page link like:
 https://your_user_name.notion.site/myworkspace/a8aec43384f447ed84390. 
 The visiter don't need to redirect url.
 
+## Sync image to Notion
+
+To sync images to your oss or cos bucket, use the [Obsidian Image Auto Upload Plugin](https://github.com/renmu123/obsidian-image-auto-upload-plugin).
 
 # Buy me a cup of coffee.
 
