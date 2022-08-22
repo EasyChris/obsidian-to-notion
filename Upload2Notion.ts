@@ -86,7 +86,7 @@ export class Upload2Notion {
 		const __content = yamlObj.__content
 		const file2Block = markdownToBlocks(__content);
 		const frontmasster =await app.metadataCache.getFileCache(nowFile)?.frontmatter
-		const notionID = frontmasster ? frontmasster.notionId : null
+		const notionID = frontmasster ? frontmasster.notionID : null
 
 		if(notionID){
 				res = await this.updatePage(notionID, title, file2Block);
