@@ -64,7 +64,7 @@ Create a new database in the page -> you need `full page database`
 
 Add `integration` to your new database
 
-![](https://files.readme.io/0a267dd-share-database-with-integration.gif)
+![](./doc/6.gif)
 
 ### Step 3: Copy the database ID
 

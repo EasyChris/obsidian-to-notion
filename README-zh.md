@@ -45,7 +45,7 @@ git clone https://github.com/EasyChris/obsidian-to-notion.git
 
 将`integration`添加到你的新建的数据库中
 
-![](https://files.readme.io/0a267dd-share-database-with-integration.gif)
+![](./doc/6.gif)
 
 #### 注意
 
