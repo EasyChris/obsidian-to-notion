@@ -108,6 +108,16 @@ To sync images to your oss or cos bucket, use the [Obsidian Image Auto Upload Pl
 
 [Buy me a coffee](https://dun.mianbaoduo.com/@easy)
 
+
+# Development
+
+```
+git clone https://github.com/EasyChris/obsidian-to-notion.git
+yarn install
+yarn dev
+```
+
+
 # Thanks
 [Development Process | Obsidian Plugin Development Documentation](https://luhaifeng666.github.io/obsidian-plugin-docs-zh/zh/getting-started/development-workflow.html)
 

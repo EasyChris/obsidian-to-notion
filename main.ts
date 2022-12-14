@@ -90,7 +90,7 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 					if(res.status === 200){
 						new Notice(`${langConfig["sync-success"]}${basename}`)
 					}else {
-						new Notice(`${langConfig["sync-fail"]}${basename}`)
+						new Notice(`${langConfig["sync-fail"]}${basename}`, 3000)
 					}
 				}
 	}
