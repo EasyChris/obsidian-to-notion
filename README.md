@@ -87,7 +87,7 @@ A share link will be automatically generated after successful upload
 ![](./doc/5.png)
 
 
-## Banner URL[option]
+## Banner URL [option]
 banner url must be a image url like: https://i.imgur.com/xxx.jpg
 if you don't want to use banner, leave it blank
 
@@ -99,6 +99,11 @@ that visit this page need to redirect to your site url
 if you write the Notion ID, it will share to the page link like: 
 https://your_user_name.notion.site/myworkspace/a8aec43384f447ed84390. 
 The visiter don't need to redirect url.
+
+## Convert Tags [option]
+Transfer the Obsidian tags to the Notion table.
+It requires the column with the name 'Tags'.
+![](./doc/7.png)
 
 ## Sync image to Notion
 
