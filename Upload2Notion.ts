@@ -50,7 +50,7 @@ export class Upload2Notion {
 					],
 				},
 				Tags: {
-					multi_select: allowTags ? tags.map(tag => {
+					multi_select: allowTags && tags !== undefined ? tags.map(tag => {
 						return {"name": tag}
 					}) : [],
 				},
