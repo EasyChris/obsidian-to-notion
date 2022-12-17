@@ -89,10 +89,14 @@ A share link will be automatically generated after successful upload
 
 
 ## Banner URL [option]
-banner url must be a image url like: https://i.imgur.com/xxx.jpg
-if you don't want to use banner, leave it blank
+Banner url must be a image url like: https://i.imgur.com/xxx.jpg
+If you don't want to use banner, leave it blank
 
 ## Custom Tags [option]
+
+Add tags to your notion page
+
+![](./doc/10.png)
 
 * open plugin convert tags
 
@@ -111,7 +115,7 @@ this is test tags
 
 ![](./doc/9.png)
 
-thanks for [@jannikbuscha](https://github.com/jannikbuscha) contribution 
+Thanks for [@jannikbuscha](https://github.com/jannikbuscha) contribution 
 
 
 ## Notion ID [option]
@@ -144,6 +148,8 @@ git clone https://github.com/EasyChris/obsidian-to-notion.git
 yarn install
 yarn dev
 ```
+
+
 
 
 # Thanks
