@@ -24,6 +24,7 @@ interface PluginSettings {
 	bannerUrl: string;
 	notionID: string;
 	proxy: string;
+	allowTags: boolean;
 }
 
 const langConfig =  NoticeMConfig( window.localStorage.getItem('language') || 'en')
@@ -34,13 +35,14 @@ const DEFAULT_SETTINGS: PluginSettings = {
 	bannerUrl: "",
 	notionID: "",
 	proxy: "",
+	allowTags: false
 };
 
 export default class ObsidianSyncNotionPlugin extends Plugin {
 	settings: PluginSettings;
 	async onload() {
 		await this.loadSettings();
-		addIcons();	
+		addIcons();
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon(
 			"notion-logo",
@@ -72,21 +74,21 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 	onunload() {}
 
 	async upload(){
-		const { notionAPI, databaseID } = this.settings;
+		const { notionAPI, databaseID, allowTags } = this.settings;
 				if (notionAPI === "" || databaseID === "") {
 					new Notice(
 						"Please set up the notion API and database ID in the settings tab."
 					);
 					return;
 				}
-				const { markDownData, nowFile } =
+				const { markDownData, nowFile, tags } =
 					await this.getNowFileMarkdownContent(this.app);
 
-				
+
 				if (markDownData) {
 					const { basename } = nowFile;
 					const upload = new Upload2Notion(this);
-					const res = await upload.syncMarkdownToNotion(basename, markDownData,nowFile, this.app, this.settings)
+					const res = await upload.syncMarkdownToNotion(basename, allowTags, tags, markDownData, nowFile, this.app, this.settings)
 					if(res.status === 200){
 						new Notice(`${langConfig["sync-success"]}${basename}`)
 					}else {
@@ -97,11 +99,14 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 
 	async getNowFileMarkdownContent(app: App) {
 		const nowFile = app.workspace.getActiveFile();
+		const tags = app.metadataCache.getFileCache(nowFile).frontmatter.tags;
+
 		if (nowFile) {
 			const markDownData = await nowFile.vault.read(nowFile);
 			return {
 				markDownData,
 				nowFile,
+				tags
 			};
 		} else {
 			new Notice(langConfig["open-file"]);
@@ -139,7 +144,7 @@ class SampleSettingTab extends PluginSettingTab {
 			text: "Settings for obsidian to notion plugin.",
 		});
 
-		const notionApiKye = new Setting(containerEl)
+		new Setting(containerEl)
 			.setName("Notion API Token")
 			.setDesc("It's a secret")
 			.addText((text) =>{
@@ -153,7 +158,7 @@ class SampleSettingTab extends PluginSettingTab {
 				t.inputEl.type = 'password'
 				return t
 			});
-			
+
 
 		const notionDatabaseID = new Setting(containerEl)
 			.setName("Database ID")
@@ -169,11 +174,11 @@ class SampleSettingTab extends PluginSettingTab {
 				t.inputEl.type = 'password'
 				return t
 			}
-				
+
 			);
 
 			notionDatabaseID.controlEl.querySelector('input').type='password'
-			
+
 			new Setting(containerEl)
 			.setName("Banner url(optional)")
 			.setDesc("page banner url(optional), default is empty, if you want to show a banner, please enter the url(like:https://raw.githubusercontent.com/EasyChris/obsidian-to-notion/ae7a9ac6cf427f3ca338a409ce6967ced9506f12/doc/2.png)")
@@ -197,6 +202,19 @@ class SampleSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.notionID)
 					.onChange(async (value) => {
 						this.plugin.settings.notionID = value;
+						await this.plugin.saveSettings();
+					})
+			);
+
+
+			new Setting(containerEl)
+			.setName("Convert tags(optional)")
+			.setDesc("Transfer the Obsidian tags to the Notion table. It requires the column with the name 'Tags'")
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.allowTags)
+					.onChange(async (value) => {
+						this.plugin.settings.allowTags = value;
 						await this.plugin.saveSettings();
 					})
 			);

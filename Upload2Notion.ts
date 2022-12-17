@@ -12,7 +12,7 @@ export class Upload2Notion {
 		this.app = app;
 	}
 
-	async deletePage(notionID:string){	
+	async deletePage(notionID:string){
 		const response = await requestUrl({
 			url: `https://api.notion.com/v1/blocks/${notionID}`,
 			method: 'DELETE',
@@ -23,22 +23,22 @@ export class Upload2Notion {
 			},
 			body: ''
 		})
-		return response;	
+		return response;
 	}
 
 	// 因为需要解析notion的block进行对比，非常的麻烦，
 	// 暂时就直接删除，新建一个page
-	async updatePage(notionID:string, title:string, childArr:any) {
+	async updatePage(notionID:string, title:string, allowTags:boolean, tags:string[], childArr:any) {
 		await this.deletePage(notionID)
-		const res = await this.createPage(title, childArr)
+		const res = await this.createPage(title, allowTags, tags, childArr)
 		return res
 	}
 
-	async createPage(title:string, childArr: any) {
+	async createPage(title:string, allowTags:boolean, tags:string[], childArr: any) {
 		const bodyString:any = {
-			parent: { 
-				database_id: this.app.settings.databaseID 
-			},	
+			parent: {
+				database_id: this.app.settings.databaseID
+			},
 			properties: {
 				Name: {
 					title: [
@@ -48,6 +48,11 @@ export class Upload2Notion {
 							},
 						},
 					],
+				},
+				Tags: {
+					multi_select: allowTags ? tags.map(tag => {
+						return {"name": tag}
+					}) : [],
 				},
 			},
 			children: childArr,
@@ -77,10 +82,10 @@ export class Upload2Notion {
 			return response;
 		} catch (error) {
 				new Notice(`network error ${error}`)
-		}	
+		}
 	}
 
-	async syncMarkdownToNotion(title:string, markdown: string, nowFile: TFile, app:App, settings:any): Promise<any> {
+	async syncMarkdownToNotion(title:string, allowTags:boolean, tags:string[], markdown: string, nowFile: TFile, app:App, settings:any): Promise<any> {
 		let res:any
 		const yamlObj:any = yamlFrontMatter.loadFront(markdown);
 		const __content = yamlObj.__content
@@ -89,9 +94,9 @@ export class Upload2Notion {
 		const notionID = frontmasster ? frontmasster.notionID : null
 
 		if(notionID){
-				res = await this.updatePage(notionID, title, file2Block);
+				res = await this.updatePage(notionID, title, allowTags, tags, file2Block);
 		} else {
-			 	res = await this.createPage(title, file2Block);
+			 	res = await this.createPage(title, allowTags, tags, file2Block);
 		}
 		if (res.status === 200) {
 			await this.updateYamlInfo(markdown, nowFile, res, app, settings)
@@ -104,11 +109,11 @@ export class Upload2Notion {
 	async updateYamlInfo(yamlContent: string, nowFile: TFile, res: any,app:App, settings:any) {
 		const yamlObj:any = yamlFrontMatter.loadFront(yamlContent);
 		let {url, id} = res.json
-		// replace www to notionID	
+		// replace www to notionID
 		const {notionID} = settings;
 		if(notionID!=="") {
 			// replace url str "www" to notionID
-			url  = url.replace("www.notion.so", `${notionID}.notion.site`)			
+			url  = url.replace("www.notion.so", `${notionID}.notion.site`)
 		}
 		yamlObj.link = url;
 		try {
