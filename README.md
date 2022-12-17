@@ -21,6 +21,7 @@ You are welcome to offer it a star if it can benefit you.
 - [x] support for mult language
 - [x] support for auto copy the share link to clipboard
 - [x] support for mobile
+- [x] support tags thank for [@jannikbuscha](https://github.com/jannikbuscha)
 - [ ] transfer the bi-link format like [[]] into the format that Notion supports.
 
 
@@ -91,6 +92,28 @@ A share link will be automatically generated after successful upload
 banner url must be a image url like: https://i.imgur.com/xxx.jpg
 if you don't want to use banner, leave it blank
 
+## Custom Tags [option]
+
+* open plugin convert tags
+
+![](./doc/8.png)
+
+* add tags in the head 
+```markdown
+---
+tags:
+  - tag4
+---
+
+this is test tags
+
+```
+
+![](./doc/9.png)
+
+thanks for [@jannikbuscha](https://github.com/jannikbuscha) contribution 
+
+
 ## Notion ID [option]
 Notion ID is the your notion site ID that you want to share the file to.
 if you don't write it, notion will share to the default link like: 
@@ -133,6 +156,8 @@ yarn dev
 [GitHub - Easychris/obsidian-to-notion: Obsidian Weread Plugin is an plugin to sync Weread(微信读书) hightlights and annotations into your Obsidian Vault.](https://github.dev/zhaohongxuan/obsidian-weread-plugin)
 
 [GitHub - Quorafind/Obsidian-Memos: A quick capture plugin for Obsidian, all data from your notes.](https://github.com/Quorafind/Obsidian-Memos)
+
+[https://github.com/jannikbuscha/obsidian-to-notion](https://github.com/jannikbuscha)
 
 # License
 GNU GPLv3
