@@ -137,9 +137,6 @@ The visiter don't need to redirect url.
 
 To sync images to your oss or cos bucket, use the [Obsidian Image Auto Upload Plugin](https://github.com/renmu123/obsidian-image-auto-upload-plugin).
 
-# Buy me a cup of coffee.
-
-[Buy me a coffee](https://dun.mianbaoduo.com/@easy)
 
 
 # Development
