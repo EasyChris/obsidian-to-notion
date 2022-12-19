@@ -9,8 +9,6 @@ import {
 	Setting,
 	normalizePath
 } from "obsidian";
-import { join } from "path";
-import * as fs from "fs";
 import {addIcons}  from 'icon';
 import { Upload2Notion } from "Upload2Notion";
 import {NoticeMConfig} from "Message";
@@ -99,8 +97,11 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 
 	async getNowFileMarkdownContent(app: App) {
 		const nowFile = app.workspace.getActiveFile();
-		const tags = app.metadataCache.getFileCache(nowFile).frontmatter.tags;
-
+		const { allowTags } = this.settings;
+		let tags = []
+		if (app.metadataCache.getFileCache(nowFile).tags !== undefined && allowTags) {
+			tags = app.metadataCache.getFileCache(nowFile).frontmatter.tags;
+		}
 		if (nowFile) {
 			const markDownData = await nowFile.vault.read(nowFile);
 			return {
