@@ -1,6 +1,6 @@
 {
   "name": "obsidian-to-notion",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "type": "module",
   "description": "This is a  plugin for Obsidian. This plugin share obsidian md  file to notion with notion api",
   "main": "main.js",
