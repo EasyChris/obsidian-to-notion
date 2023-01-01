@@ -12,6 +12,7 @@ import {
 import {addIcons}  from 'icon';
 import { Upload2Notion } from "Upload2Notion";
 import {NoticeMConfig} from "Message";
+import { CLIENT_RENEG_LIMIT } from "tls";
 
 
 // Remember to rename these classes and interfaces!
@@ -79,8 +80,7 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 					);
 					return;
 				}
-				const { markDownData, nowFile, tags } =
-					await this.getNowFileMarkdownContent(this.app);
+				const { markDownData, nowFile, tags } =await this.getNowFileMarkdownContent(this.app);
 
 
 				if (markDownData) {
@@ -90,7 +90,7 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 					if(res.status === 200){
 						new Notice(`${langConfig["sync-success"]}${basename}`)
 					}else {
-						new Notice(`${langConfig["sync-fail"]}${basename}`, 3000)
+						new Notice(`${langConfig["sync-fail"]}${basename}`, 5000)
 					}
 				}
 	}
@@ -99,8 +99,19 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 		const nowFile = app.workspace.getActiveFile();
 		const { allowTags } = this.settings;
 		let tags = []
-		if (app.metadataCache.getFileCache(nowFile).tags !== undefined && allowTags) {
-			tags = app.metadataCache.getFileCache(nowFile).frontmatter.tags;
+		let fileTags = app.metadataCache.getFileCache(nowFile)?.frontmatter?.tags;
+		console.log(nowFile, fileTags)
+		console.log(app.metadataCache.getFileCache(nowFile))
+		if(allowTags && !fileTags) {
+			new Notice(langConfig["set-tags-fail"]);
+			return
+		}
+		try {
+			if (app.metadataCache.getFileCache(nowFile).tags !== undefined && allowTags) {
+				tags = app.metadataCache.getFileCache(nowFile).frontmatter.tags;
+			}
+		} catch (error) {
+			new Notice(langConfig["set-tags-fail"]);
 		}
 		if (nowFile) {
 			const markDownData = await nowFile.vault.read(nowFile);
@@ -156,7 +167,7 @@ class SampleSettingTab extends PluginSettingTab {
 					this.plugin.settings.notionAPI = value;
 					await this.plugin.saveSettings();
 				})
-				t.inputEl.type = 'password'
+				// t.inputEl.type = 'password'
 				return t
 			});
 
@@ -172,13 +183,13 @@ class SampleSettingTab extends PluginSettingTab {
 					this.plugin.settings.databaseID = value;
 					await this.plugin.saveSettings();
 				})
-				t.inputEl.type = 'password'
+				// t.inputEl.type = 'password'
 				return t
 			}
 
 			);
 
-			notionDatabaseID.controlEl.querySelector('input').type='password'
+			// notionDatabaseID.controlEl.querySelector('input').type='password'
 
 			new Setting(containerEl)
 			.setName("Banner url(optional)")
