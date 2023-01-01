@@ -107,6 +107,17 @@ Add tags to your notion page
 ![](./doc/8.png)
 
 * add tags in the head 
+
+```markdown
+---
+tags: [tag1,tag2]
+---
+
+this is test tags
+
+```
+
+
 ```markdown
 ---
 tags:
