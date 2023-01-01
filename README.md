@@ -158,6 +158,14 @@ yarn install
 yarn dev
 ```
 
+## Release
+
+```
+node update-version.js
+./release.sh
+```
+```
+
 
 
 
