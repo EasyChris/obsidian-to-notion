@@ -99,15 +99,8 @@ export default class ObsidianSyncNotionPlugin extends Plugin {
 		const nowFile = app.workspace.getActiveFile();
 		const { allowTags } = this.settings;
 		let tags = []
-		let fileTags = app.metadataCache.getFileCache(nowFile)?.frontmatter?.tags;
-		console.log(nowFile, fileTags)
-		console.log(app.metadataCache.getFileCache(nowFile))
-		if(allowTags && !fileTags) {
-			new Notice(langConfig["set-tags-fail"]);
-			return
-		}
 		try {
-			if (app.metadataCache.getFileCache(nowFile).tags !== undefined && allowTags) {
+			if(allowTags) {
 				tags = app.metadataCache.getFileCache(nowFile).frontmatter.tags;
 			}
 		} catch (error) {
