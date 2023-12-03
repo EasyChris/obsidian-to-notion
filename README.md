@@ -164,9 +164,6 @@ yarn dev
 node update-version.js
 ./release.sh
 ```
-```
-
-
 
 
 # Thanks
